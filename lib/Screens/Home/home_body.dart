@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:shoppy/Screens/Cart/cart_main.dart';
 import 'package:http/http.dart' as http;
-import 'package:shoppy/Screens/Menu/menu_main.dart';
+import 'package:shoppy/Screens/Menu/menu_body.dart';
 import '../../Constants/fields.dart';
+import '../Cart/cart_body.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -35,7 +35,10 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: MenuBody(),
       body: SingleChildScrollView(
         child: Container(
           // height: screenSize.height,
@@ -58,10 +61,7 @@ class _HomeBodyState extends State<HomeBody> {
                   children: <Widget>[
                     IconButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MenuMain()));
+                          _scaffoldKey.currentState?.openDrawer();
                         },
                         icon: Icon(
                           Icons.menu,
@@ -75,7 +75,7 @@ class _HomeBodyState extends State<HomeBody> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const CartMain()));
+                                  builder: (context) => const CartBody()));
                         },
                         icon: Icon(
                           Icons.shopping_cart_outlined,
@@ -113,7 +113,9 @@ class _HomeBodyState extends State<HomeBody> {
                       ),
                       for (int i = 0; i < products.length; i++)
                         reusableContainer(
-                            screenSize: screenSize, prod: products[i]),
+                            screenSize: screenSize,
+                            prod: products[i],
+                            context: context),
                     ],
                   )),
             ],
@@ -121,43 +123,5 @@ class _HomeBodyState extends State<HomeBody> {
         ),
       ),
     );
-
-    // return Scaffold(
-    //   body: Column(
-    //     children: [
-    //       Container(
-    //         height: screenSize.height,
-    //         width: screenSize.width,
-    //         decoration: BoxDecoration(
-    //             gradient: LinearGradient(
-    //                 begin: Alignment.centerLeft,
-    //                 end: Alignment.centerRight,
-    //                 colors: [
-    //               Color(0xFFc9d6ff),
-    //               Color(0XFFe2e2e2),
-    //             ])),
-    //         child: ListView.builder(
-    //             itemCount: products.length,
-    //             itemBuilder: (context, index) {
-    //               final prod = products[index];
-    //               return reusableContainer(screenSize: screenSize, prod: prod);
-    //             }),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
-
-  // void fetchProducts() async {
-  //   print("Prodcuts called");
-  //   const url = "https://dummyjson.com/products";
-  //   final uri = Uri.parse(url);
-  //   final response = await http.get(uri);
-  //   final body = response.body;
-  //   final json = jsonDecode(body);
-  //   setState(() {
-  //     products = json['products'];
-  //   });
-  //   print("Prodcuts completed");
-  // }
 }

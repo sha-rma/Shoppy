@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Constants/fields.dart';
+
 class MenuBody extends StatefulWidget {
   const MenuBody({super.key});
 
@@ -11,18 +13,13 @@ class _MenuBodyState extends State<MenuBody> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
+    return Drawer(
+      child: SingleChildScrollView(
           child: Stack(
         children: [
           Container(
             height: screenSize.height,
             width: screenSize.width,
-            color: Color(0xFFF4F4F4),
-          ),
-          Container(
-            height: screenSize.height,
-            width: screenSize.width * 0.75,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
@@ -53,19 +50,33 @@ class _MenuBodyState extends State<MenuBody> {
                         width: screenSize.width * 0.008,
                       ),
                       Text(
-                        "Menu",
+                        "Filters",
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
                 ),
-                Text("Smartphones"),
-                Text("Laptops"),
-                Text("Fragrances"),
-                Text("Skincare"),
-                Text("Groceries"),
-                Text("Home-Decoration"),
+                Divider(thickness: 2, color: Colors.black.withOpacity(0.2)),
+                reusableMenuButton(screenSize: screenSize, name: "Smartphones"),
+                reusableMenuButton(screenSize: screenSize, name: "Laptops"),
+                reusableMenuButton(screenSize: screenSize, name: "Fragrances"),
+                reusableMenuButton(screenSize: screenSize, name: "Skincare"),
+                reusableMenuButton(screenSize: screenSize, name: "Groceries"),
+                reusableMenuButton(
+                    screenSize: screenSize, name: "Home-Decoration"),
+                priceFilter(
+                    screenSize: screenSize,
+                    range: 500,
+                    label: "Less than Rs.500"),
+                priceFilter(
+                    screenSize: screenSize,
+                    range: 1000,
+                    label: "Less than Rs.1000"),
+                priceFilter(
+                    screenSize: screenSize,
+                    range: 1500,
+                    label: "Less than Rs.1500"),
               ],
             ),
           )
