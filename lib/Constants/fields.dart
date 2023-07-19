@@ -8,13 +8,11 @@ import '../Screens/Filter/filter_page.dart';
 _showNotification({required msg}) {
   Fluttertoast.showToast(
     msg: msg,
-    toastLength: Toast
-        .LENGTH_SHORT, // Duration for how long the popup should be visible (SHORT or LONG)
-    gravity:
-        ToastGravity.BOTTOM, // Location of the popup (TOP, CENTER, or BOTTOM)
-    backgroundColor: Colors.black87, // Background color of the popup
-    textColor: Colors.white, // Text color of the popup
-    fontSize: 16.0, // Font size of the popup message
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.black87,
+    textColor: Colors.white,
+    fontSize: 16.0,
   );
 }
 
@@ -185,30 +183,6 @@ Container reusableMenuButton(
   );
 }
 
-Container priceFilter({required screenSize, required range, required label}) {
-  return Container(
-    width: screenSize.width,
-    decoration: BoxDecoration(
-        color: Color(0xFFF4F4F4).withOpacity(0),
-        border: Border(
-            top: BorderSide.none,
-            left: BorderSide(width: 2, color: Colors.black.withOpacity(0.2)),
-            right: BorderSide(width: 2, color: Colors.black.withOpacity(0.2)),
-            bottom:
-                BorderSide(width: 2, color: Colors.black.withOpacity(0.2)))),
-    child: TextButton(
-      onPressed: () {},
-      child: Text(
-        label,
-        style: TextStyle(
-            color: Color(0xFF47037C),
-            fontWeight: FontWeight.bold,
-            fontSize: 16),
-      ),
-    ),
-  );
-}
-
 void addToCart({required prod}) {
   FirebaseAuth auth = FirebaseAuth.instance;
   User? currentUser = auth.currentUser;
@@ -251,7 +225,7 @@ Padding cartDisplay(
   );
 }
 
-Padding catfilterDisplay(
+Padding filterDisplay(
     {required screenSize, required prod, required name, required context}) {
   var nam = name.toLowerCase();
   if (prod['category'] == nam) {

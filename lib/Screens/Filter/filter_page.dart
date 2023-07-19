@@ -99,7 +99,7 @@ class _FilterPageState extends State<FilterPage> {
                         ),
                       ),
                       for (int i = 0; i < widget.products.length; i++)
-                        catfilterDisplay(
+                        filterDisplay(
                             screenSize: screenSize,
                             prod: widget.products[i],
                             context: context,

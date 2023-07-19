@@ -297,6 +297,35 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Color(0xFF47037C),
                   ),
                 ),
+                SizedBox(
+                  height: screenSize.height * 0.025,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an account? ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.4),
+                          fontSize: 14),
+                    ),
+                    new GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: new Text(
+                        "Sign In",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF47037C),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

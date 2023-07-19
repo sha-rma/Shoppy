@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                       child: new Text(
-                        " Sign Up",
+                        "Sign Up",
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,

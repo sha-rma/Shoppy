@@ -3,8 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shoppy/Constants/auth.dart';
 import 'package:shoppy/Screens/Cart/cart_body.dart';
-import 'package:shoppy/Screens/login_page.dart';
 import '../../Constants/fields.dart';
 
 class MenuBody extends StatefulWidget {
@@ -16,14 +16,6 @@ class MenuBody extends StatefulWidget {
 }
 
 class _MenuBodyState extends State<MenuBody> {
-  List<String> Categories = [
-    "smartphones",
-    "laptops",
-    "fragrances",
-    "skincare",
-    "groceries",
-    "home-decoration"
-  ];
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -52,14 +44,6 @@ class _MenuBodyState extends State<MenuBody> {
                       left: screenSize.width * 0.03),
                   child: Row(
                     children: [
-                      // IconButton(
-                      //     onPressed: () {
-                      //       Navigator.pop(context);
-                      //     },
-                      //     icon: Icon(
-                      //       Icons.close_outlined,
-                      //       size: 30,
-                      //     )),
                       SizedBox(
                         width: screenSize.width * 0.05,
                       ),
@@ -170,18 +154,6 @@ class _MenuBodyState extends State<MenuBody> {
                     ),
                   ),
                 ),
-                // priceFilter(
-                //     screenSize: screenSize,
-                //     range: 500,
-                //     label: "Less than Rs.500"),
-                // priceFilter(
-                //     screenSize: screenSize,
-                //     range: 1000,
-                //     label: "Less than Rs.1000"),
-                // priceFilter(
-                //     screenSize: screenSize,
-                //     range: 1500,
-                //     label: "Less than Rs.1500"),
               ],
             ),
           )
@@ -189,15 +161,4 @@ class _MenuBodyState extends State<MenuBody> {
       )),
     );
   }
-}
-
-Future<void> logout(BuildContext context) async {
-  CircularProgressIndicator();
-  await FirebaseAuth.instance.signOut();
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (context) => LoginPage(),
-    ),
-  );
 }

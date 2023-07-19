@@ -106,46 +106,6 @@ class _HomeBodyState extends State<HomeBody> {
                       SizedBox(
                         height: screenSize.height * 0.025,
                       ),
-                      // TextField(
-                      //   decoration: InputDecoration(
-                      //       hintText: "Search",
-                      //       prefixIcon: Icon(Icons.search_rounded),
-                      //       border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //       )),
-                      // ),
-                      // Center(
-                      //   child: Container(
-                      //     height: screenSize.height * 0.0626,
-                      //     width: screenSize.width * 0.777,
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(
-                      //             color: Colors.black.withOpacity(0.2),
-                      //             width: 2),
-                      //         borderRadius: BorderRadius.circular(50),
-                      //         color: Color(0xFFF4F4F4)),
-                      //     child: Row(
-                      //       children: [
-                      //         Padding(
-                      //           padding: EdgeInsets.only(
-                      //               left: screenSize.width * 0.04),
-                      //           child: Icon(
-                      //             Icons.search_rounded,
-                      //             size: 30,
-                      //             color: Colors.black.withOpacity(0.2),
-                      //           ),
-                      //         ),
-                      //         Text(
-                      //           "  Search",
-                      //           style: TextStyle(
-                      //               fontSize: 18,
-                      //               color: Colors.black.withOpacity(0.2),
-                      //               fontWeight: FontWeight.w500),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: EdgeInsets.only(
                             top: screenSize.height * 0.025,
@@ -158,7 +118,7 @@ class _HomeBodyState extends State<HomeBody> {
                               color: Colors.black),
                         ),
                       ),
-                      for (int i = 0; i < products.length; i++)
+                      for (int i = 0; i < products.length; i += 5)
                         reusableContainer(
                             screenSize: screenSize,
                             prod: products[i],
