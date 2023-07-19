@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:shoppy/Screens/Home/home_body.dart';
 import '../../Constants/fields.dart';
 import '../Cart/cart_body.dart';
 import '../Menu/menu_body.dart';
@@ -20,6 +21,17 @@ class _FilterPageState extends State<FilterPage> {
     var screenSize = MediaQuery.of(context).size;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomeBody()));
+        },
+        child: Icon(
+          Icons.home_outlined,
+          size: 30,
+        ),
+        backgroundColor: Color(0xFFc9d6ff),
+      ),
       key: _scaffoldKey,
       drawer: MenuBody(
         prod: widget.products,

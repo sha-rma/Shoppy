@@ -18,6 +18,16 @@ class _CartBodyState extends State<CartBody> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(
+          Icons.home_outlined,
+          size: 30,
+        ),
+        backgroundColor: Color(0xFFc9d6ff),
+      ),
       body: SingleChildScrollView(
         child: Container(
           // height: screenSize.height,

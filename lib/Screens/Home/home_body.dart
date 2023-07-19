@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shoppy/Screens/Cart/cart_body.dart';
 import 'package:shoppy/Screens/Menu/menu_body.dart';
 import '../../Constants/fields.dart';
 import '../Search/search_bar.dart';
@@ -38,6 +39,22 @@ class _HomeBodyState extends State<HomeBody> {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CartBody(
+                        prod: products,
+                      )));
+        },
+        child: Icon(
+          Icons.shopping_cart_outlined,
+          color: Colors.white,
+          size: 30,
+        ),
+        backgroundColor: Color(0xFFc9d6ff),
+      ),
       drawer: MenuBody(
         prod: products,
       ),
