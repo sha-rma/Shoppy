@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../../Constants/fields.dart';
+
 class DetailsBody extends StatefulWidget {
   DetailsBody({required this.prod});
   var prod;
@@ -16,7 +18,7 @@ class _DetailsBodyState extends State<DetailsBody> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: 800,
+          // height: 1000,
           width: screenSize.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -196,7 +198,9 @@ class _DetailsBodyState extends State<DetailsBody> {
             ),
             Center(
               child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addToCart(prod: widget.prod);
+                  },
                   child: Container(
                     height: screenSize.height * 0.06875,
                     width: screenSize.width * 0.555,
@@ -209,7 +213,10 @@ class _DetailsBodyState extends State<DetailsBody> {
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     )),
                   )),
-            )
+            ),
+            SizedBox(
+              height: screenSize.height * 0.0375,
+            ),
           ]),
         ),
       ),

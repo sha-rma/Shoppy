@@ -1,37 +1,20 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shoppy/Screens/Menu/menu_body.dart';
-import '../../Constants/fields.dart';
-import '../Search/search_bar.dart';
+// ignore_for_file: must_be_immutable
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({super.key});
+import 'package:flutter/material.dart';
+import '../../Constants/fields.dart';
+import '../Cart/cart_body.dart';
+import '../Menu/menu_body.dart';
+
+class FilterPage extends StatefulWidget {
+  FilterPage({required this.name, required this.products});
+  var name;
+  var products;
 
   @override
-  State<HomeBody> createState() => _HomeBodyState();
+  State<FilterPage> createState() => _FilterPageState();
 }
 
-class _HomeBodyState extends State<HomeBody> {
-  Map data = {};
-  List<dynamic> products = [];
-  Future fetchData() async {
-    const url = "https://dummyjson.com/products";
-    final uri = Uri.parse(url);
-    http.Response response = await http.get(uri);
-    data = json.decode(response.body);
-    setState(() {
-      products = data["products"];
-    });
-    debugPrint(products.toString());
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
+class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -39,7 +22,7 @@ class _HomeBodyState extends State<HomeBody> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: MenuBody(
-        prod: products,
+        prod: widget.products,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -77,12 +60,12 @@ class _HomeBodyState extends State<HomeBody> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SearchPage(
-                                        prod: products,
+                                  builder: (context) => CartBody(
+                                        prod: widget.products,
                                       )));
                         },
                         icon: Icon(
-                          Icons.search_rounded,
+                          Icons.shopping_cart_outlined,
                           size: 30,
                         ))
                   ],
@@ -103,66 +86,24 @@ class _HomeBodyState extends State<HomeBody> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: screenSize.height * 0.025,
-                      ),
-                      // TextField(
-                      //   decoration: InputDecoration(
-                      //       hintText: "Search",
-                      //       prefixIcon: Icon(Icons.search_rounded),
-                      //       border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(30),
-                      //       )),
-                      // ),
-                      // Center(
-                      //   child: Container(
-                      //     height: screenSize.height * 0.0626,
-                      //     width: screenSize.width * 0.777,
-                      //     decoration: BoxDecoration(
-                      //         border: Border.all(
-                      //             color: Colors.black.withOpacity(0.2),
-                      //             width: 2),
-                      //         borderRadius: BorderRadius.circular(50),
-                      //         color: Color(0xFFF4F4F4)),
-                      //     child: Row(
-                      //       children: [
-                      //         Padding(
-                      //           padding: EdgeInsets.only(
-                      //               left: screenSize.width * 0.04),
-                      //           child: Icon(
-                      //             Icons.search_rounded,
-                      //             size: 30,
-                      //             color: Colors.black.withOpacity(0.2),
-                      //           ),
-                      //         ),
-                      //         Text(
-                      //           "  Search",
-                      //           style: TextStyle(
-                      //               fontSize: 18,
-                      //               color: Colors.black.withOpacity(0.2),
-                      //               fontWeight: FontWeight.w500),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: EdgeInsets.only(
                             top: screenSize.height * 0.025,
                             left: screenSize.width * 0.111),
                         child: Text(
-                          "Recommendations",
+                          widget.name,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
                       ),
-                      for (int i = 0; i < products.length; i++)
-                        reusableContainer(
+                      for (int i = 0; i < widget.products.length; i++)
+                        catfilterDisplay(
                             screenSize: screenSize,
-                            prod: products[i],
-                            context: context),
+                            prod: widget.products[i],
+                            context: context,
+                            name: widget.name),
                       SizedBox(
                         height: screenSize.height * 0.05,
                       )

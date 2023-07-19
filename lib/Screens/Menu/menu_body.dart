@@ -1,15 +1,29 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:shoppy/Screens/Cart/cart_body.dart';
+import 'package:shoppy/Screens/login_page.dart';
 import '../../Constants/fields.dart';
 
 class MenuBody extends StatefulWidget {
-  const MenuBody({super.key});
+  MenuBody({required this.prod});
+  var prod;
 
   @override
   State<MenuBody> createState() => _MenuBodyState();
 }
 
 class _MenuBodyState extends State<MenuBody> {
+  List<String> Categories = [
+    "smartphones",
+    "laptops",
+    "fragrances",
+    "skincare",
+    "groceries",
+    "home-decoration"
+  ];
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -38,45 +52,136 @@ class _MenuBodyState extends State<MenuBody> {
                       left: screenSize.width * 0.03),
                   child: Row(
                     children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close_outlined,
-                            size: 30,
-                          )),
+                      // IconButton(
+                      //     onPressed: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //     icon: Icon(
+                      //       Icons.close_outlined,
+                      //       size: 30,
+                      //     )),
                       SizedBox(
-                        width: screenSize.width * 0.008,
+                        width: screenSize.width * 0.05,
                       ),
                       Text(
-                        "Filters",
+                        "Hello ",
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      )
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      StreamBuilder<DocumentSnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('UserInfo')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            String userName;
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              userName = "";
+                            } else {
+                              Map<String, dynamic> nam =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              userName = nam['displayName'];
+                            }
+                            return RichText(
+                              textAlign: TextAlign.left,
+                              text: TextSpan(
+                                text: userName + ",",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            );
+                          }),
+                      SizedBox(
+                        width: screenSize.width * 0.3,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            logout(context);
+                          },
+                          icon: Icon(
+                            Icons.logout_rounded,
+                            size: 30,
+                          ))
                     ],
                   ),
                 ),
                 Divider(thickness: 2, color: Colors.black.withOpacity(0.2)),
-                reusableMenuButton(screenSize: screenSize, name: "Smartphones"),
-                reusableMenuButton(screenSize: screenSize, name: "Laptops"),
-                reusableMenuButton(screenSize: screenSize, name: "Fragrances"),
-                reusableMenuButton(screenSize: screenSize, name: "Skincare"),
-                reusableMenuButton(screenSize: screenSize, name: "Groceries"),
                 reusableMenuButton(
-                    screenSize: screenSize, name: "Home-Decoration"),
-                priceFilter(
                     screenSize: screenSize,
-                    range: 500,
-                    label: "Less than Rs.500"),
-                priceFilter(
+                    name: "Smartphones",
+                    context: context,
+                    prod: widget.prod),
+                reusableMenuButton(
                     screenSize: screenSize,
-                    range: 1000,
-                    label: "Less than Rs.1000"),
-                priceFilter(
+                    name: "Laptops",
+                    context: context,
+                    prod: widget.prod),
+                reusableMenuButton(
                     screenSize: screenSize,
-                    range: 1500,
-                    label: "Less than Rs.1500"),
+                    name: "Fragrances",
+                    context: context,
+                    prod: widget.prod),
+                reusableMenuButton(
+                    screenSize: screenSize,
+                    name: "Skincare",
+                    context: context,
+                    prod: widget.prod),
+                reusableMenuButton(
+                    screenSize: screenSize,
+                    name: "Groceries",
+                    context: context,
+                    prod: widget.prod),
+                reusableMenuButton(
+                    screenSize: screenSize,
+                    name: "Home-Decoration",
+                    context: context,
+                    prod: widget.prod),
+                Container(
+                  width: screenSize.width,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFF4F4F4).withOpacity(0),
+                      border: Border(
+                          top: BorderSide.none,
+                          left: BorderSide(
+                              width: 2, color: Colors.black.withOpacity(0.2)),
+                          right: BorderSide(
+                              width: 2, color: Colors.black.withOpacity(0.2)),
+                          bottom: BorderSide(
+                              width: 2, color: Colors.black.withOpacity(0.2)))),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CartBody(
+                                    prod: widget.prod,
+                                  )));
+                    },
+                    child: Text(
+                      "Go to Cart",
+                      style: TextStyle(
+                          color: Color(0xFF47037C),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                  ),
+                ),
+                // priceFilter(
+                //     screenSize: screenSize,
+                //     range: 500,
+                //     label: "Less than Rs.500"),
+                // priceFilter(
+                //     screenSize: screenSize,
+                //     range: 1000,
+                //     label: "Less than Rs.1000"),
+                // priceFilter(
+                //     screenSize: screenSize,
+                //     range: 1500,
+                //     label: "Less than Rs.1500"),
               ],
             ),
           )
@@ -84,4 +189,15 @@ class _MenuBodyState extends State<MenuBody> {
       )),
     );
   }
+}
+
+Future<void> logout(BuildContext context) async {
+  CircularProgressIndicator();
+  await FirebaseAuth.instance.signOut();
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => LoginPage(),
+    ),
+  );
 }

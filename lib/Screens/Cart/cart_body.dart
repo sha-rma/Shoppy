@@ -1,7 +1,13 @@
+// ignore_for_file: must_be_immutable
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../Constants/fields.dart';
+
 class CartBody extends StatefulWidget {
-  const CartBody({super.key});
+  CartBody({required this.prod});
+  var prod;
 
   @override
   State<CartBody> createState() => _CartBodyState();
@@ -14,7 +20,7 @@ class _CartBodyState extends State<CartBody> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: screenSize.height,
+          // height: screenSize.height,
           width: screenSize.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -60,14 +66,49 @@ class _CartBodyState extends State<CartBody> {
                 ),
               ),
               Container(
-                height: screenSize.height * 0.75,
+                // height: 600,
                 width: screenSize.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
                         topRight: Radius.circular(50)),
                     color: Color(0xFFF4F4F4)),
-              )
+                child: Column(
+                  children: [
+                    StreamBuilder<DocumentSnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('UserInfo')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .snapshots(),
+                        builder: ((context, snapshot) {
+                          List cart = [];
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            cart = [];
+                          } else {
+                            Map<String, dynamic> user =
+                                snapshot.data!.data() as Map<String, dynamic>;
+                            if (user['cartList'] != null) {
+                              cart = user['cartList'];
+                            }
+                          }
+                          return Container(
+                              // height: MediaQuery.of(context).size.height,
+                              child: Column(
+                            children: [
+                              for (int i = 0; i < cart.length; i++)
+                                cartDisplay(
+                                    screenSize: screenSize,
+                                    prod: widget.prod,
+                                    index: cart[i],
+                                    context: context),
+                              SizedBox(height: screenSize.height * 0.033)
+                            ],
+                          ));
+                        }))
+                  ],
+                ),
+              ),
             ],
           ),
         ),
